@@ -11,6 +11,7 @@ import { FooterComponent } from './components/footer/footer.component';
 import { MatIconModule } from '@angular/material/icon';
 import { ProfileComponent } from './components/profile/profile.component';
 import { CommunityComponent } from './components/community/community.component';
+import { NewComponent } from './components/new/new.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { CommunityComponent } from './components/community/community.component';
     FooterComponent,
     ProfileComponent,
     CommunityComponent,
+    NewComponent,
   ],
   imports: [
     BrowserModule,

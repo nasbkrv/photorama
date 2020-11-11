@@ -14,4 +14,41 @@
     padding: $grid-gutter-width / 3;
     padding-bottom: 0;
   }
+  &__avatar{
+    object-fit: cover;
+    border-radius:100px;
+    width: 180px;
+    height: 180px;
+    border: 4px solid #ba5df9;
+  }
+  &__profiles{
+    padding: ($grid-gutter-width / 2) 0;
+
+    h4,p{
+      max-width: 200px;
+      margin: 0 auto;
+      word-wrap: break-word;
+    }
+    &__item{
+      margin: 5px;
+      max-width: 100%;
+      border-radius: 10px;
+      background-color: rgba(52, 58, 64, 0.6);
+      margin-top: $grid-gutter-width / 6;
+      
+      a{
+        color: $white;
+        text-decoration: underline;
+        &:hover{
+          color: $primary;
+        }
+      }
+      @media (min-width:768px){
+        max-width: 250px;
+      }
+      &:hover{
+        background-color: rgba(52, 58, 64, 0.8);
+      }
+    }
+  }
 }

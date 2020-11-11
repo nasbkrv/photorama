@@ -5,5 +5,32 @@
         <h2><i class="fas fa-hashtag"></i> OUR COMMUNITY</h2>
       </div>
     </div>
+    <div class="row pr-community__profiles no-gutters">
+      <div *ngFor="let user of users" class="col-12 col-md-4 col-lg-3  text-center">
+        <div class="pr-community__profiles__item  py-3">
+          <a href="#">
+            <img src={{user.avatarUrl}} alt="" srcset="" class="pr-community__avatar">
+          </a>
+          <h4 class="my-2">
+            <a href="#">{{user.username}}</a>
+          </h4>
+          <div class="d-flex justify-content-around">
+            <div>
+              Photos:
+              <div>
+                {{user.photos}}
+              </div>
+            </div>
+            <div>
+              Followers:
+              <div>
+                {{user.followers}}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
   </div>
 </div>
