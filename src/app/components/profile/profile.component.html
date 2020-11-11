@@ -1,0 +1,57 @@
+<div class="pr-profile mt-5">
+  <div class="container">
+    <div class="row pr-profile__header justify-content-center">
+      <div class="col-xs-12 col-lg-4 text-center text-lg-right p-0 mt-3">
+        <h2>{{ name }}</h2>
+        <p class="pr-0 pr-lg-3">{{ location }}</p>
+        <p class="pr-0 pr-lg-4">{{ age }}</p>
+        <div class="btn btn-primary px-4 mr-3">
+          Follow
+          <i class="far fa-heart ml-2"></i>
+        </div>
+      </div>
+      <div class="col-xs-12 col-lg-3 d-flex justify-content-center align-items-center mt-3 px-0">
+        <img src="../../../assets/images/IMG_20180422_101206_263.jpg" alt="" srcset="" class="pr-profile__avatar">
+      </div>
+      <div class="col-xs-12 col-lg-4 text-center text-lg-left p-0 mt-3">
+        <h4 class="py-2">
+          Follow me:
+        </h4>
+        <div class="pr-profile__socials py-2">
+          <span *ngFor="let media of socials">
+            <a *ngIf="media.link" href="{{media.link}}">
+              <i class="fab fa-{{media.name}} pr-{{media.name}}"></i>
+            </a>
+          </span>
+        </div>
+        <div class="row my-3 text-center justify-content-center h6">
+          <div class="col-4">
+            <div>Followers:</div>
+            <div>24903</div>
+          </div>
+          <div class="col-4">
+            <div>Followers:</div>
+            <div>24503</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12">
+        <div class="row">
+        </div>
+        <div class="row px-5 py-3">
+          <div class="col text-center">
+            <p class="text-center">{{ bio }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row pr-profile__gallery no-gutters py-5">
+      <div *ngFor="let imageUrl of galery" class="col-12 col-md-4 pr-profile__gallery__item">
+        <img src='{{imageUrl}}' alt="" srcset="" class="overlay">
+        <span class="date-added">3 days ago</span>
+      </div>
+    </div>
+
+  </div>
+</div>

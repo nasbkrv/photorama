@@ -1,0 +1,9 @@
+@import 'bootstrap';
+
+.pr-login{
+  &__container{
+    background: $white;
+    padding: $grid-gutter-width;
+    border-radius: 30px;
+  }
+}

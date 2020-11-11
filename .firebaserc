@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "photorama-aa00f": {
+      "hosting": {
+        "photorama": [
+          "photorama-aa00f"
+        ]
+      }
+    }
+  }
+}

@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "project-defence": {
+    "photorama": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/project-defence",
+            "outputPath": "dist/photorama",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -28,9 +28,15 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "./node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "./node_modules/ngx-bootstrap/datepicker/bs-datepicker.css",
+              "src/styles/styles.scss"
             ],
-            "scripts": []
+            "scripts": [
+              "./node_modules/jquery/dist/jquery.js",
+              "./node_modules/tether/dist/js/tether.js",
+              "./node_modules/bootstrap/dist/js/bootstrap.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -66,18 +72,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "project-defence:build"
+            "browserTarget": "photorama:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "project-defence:build:production"
+              "browserTarget": "photorama:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "project-defence:build"
+            "browserTarget": "photorama:build"
           }
         },
         "test": {
@@ -92,9 +98,15 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "./node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "./node_modules/ngx-bootstrap/datepicker/bs-datepicker.css",
+              "src/styles/styles.scss"
             ],
-            "scripts": []
+            "scripts": [
+              "./node_modules/jquery/dist/jquery.js",
+              "./node_modules/tether/dist/js/tether.js",
+              "./node_modules/bootstrap/dist/js/bootstrap.js"
+            ]
           }
         },
         "lint": {
@@ -114,15 +126,23 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "project-defence:serve"
+            "devServerTarget": "photorama:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "project-defence:serve:production"
+              "devServerTarget": "photorama:serve:production"
             }
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {}
         }
       }
-    }},
-  "defaultProject": "project-defence"
+    }
+  },
+  "defaultProject": "photorama",
+  "cli": {
+    "analytics": false
+  }
 }

@@ -1,0 +1,13 @@
+.basic-colors {
+  color: #478559;
+  color: #161748;
+  color: #f95d9b;
+  color: #39a0ca;
+}
+
+.pr-header {
+  width: 100%;
+  height: 80px;
+  background-color: #333333;
+  border-bottom: 2px solid #921ec7;
+}

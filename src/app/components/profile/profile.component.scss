@@ -1,0 +1,96 @@
+@import 'bootstrap';
+
+.pr-profile{
+  color: $white;
+  
+  .container{
+    background: rgba(52, 58, 64, 0.6);
+    border-radius: 10px;
+  }
+  .btn{
+    background-color: $primary;
+  }
+  &__header{
+    background: rgba(52, 58, 64, 0.8);
+    border-bottom: 2px solid #ba5df9;
+    border-radius: 10px;
+    padding: $grid-gutter-width / 3;
+    padding-bottom: 0;
+  }
+
+  &__avatar{
+    object-fit: cover;
+    border-radius:100px;
+    width: 200px;
+    height: 200px;
+    border: 5px solid #ba5df9;
+  }
+  &__socials{
+    display: flex;
+    justify-content: space-around;
+    font-size: 2.5rem;
+    border-bottom: 1px solid $white;
+    a{
+      color: rgba(255, 255, 255, 0.8);
+    }
+    .pr-facebook{
+      transition: color 0.5s ease;
+      &:hover{
+        color:#1877f2;
+      }
+    }
+    .pr-instagram{
+      transition: color 0.5s ease;
+      &:hover{
+        color: #d6249e8c ;
+        background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+        background-clip: text;
+      }
+    }
+    .pr-twitter{
+      transition: color 0.5s ease;
+      &:hover{
+        color:#1da1f2;
+      }
+    }
+    .pr-youtube{
+      transition: color 0.5s ease;
+      &:hover{
+        color:#ff0000;
+      }
+    }
+    .pr-flickr{
+      transition: color 0.5s ease-in-out;
+      &:hover{
+        color:#ff60a8c9;
+        background: linear-gradient(240deg,rgb(255, 25, 129) 0%,rgb(23, 127, 255) 100%);
+        background-clip: text;
+      }
+    }
+
+  }
+  &__gallery__item{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+
+    img{
+      min-height: 100%;
+    }
+    .date-added{
+      position: absolute;
+      bottom: 0;
+      left: 0.5rem;
+      color: rgba(255, 255, 255, 0.466);
+    }
+    &:hover{
+      cursor: pointer;
+
+      img{
+        filter: blur(1px);
+      }
+      background-color: $dark;
+    }
+  }
+}

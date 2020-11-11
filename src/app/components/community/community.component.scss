@@ -1,0 +1,17 @@
+@import 'bootstrap';
+
+.pr-community{
+  color: $white;
+  
+  .container{
+    background: rgba(52, 58, 64, 0.6);
+    border-radius: 10px;
+  }
+  &__header{
+    background: rgba(52, 58, 64, 0.8);
+    border-bottom: 2px solid #ba5df9;
+    border-radius: 10px;
+    padding: $grid-gutter-width / 3;
+    padding-bottom: 0;
+  }
+}

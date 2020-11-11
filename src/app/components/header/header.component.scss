@@ -1,0 +1,25 @@
+@import 'bootstrap';
+
+.pr-header{
+  background-color: $dark;
+  border-bottom: 2px solid #ba5df9;
+  box-shadow: 0px 3px 5px rgba(39, 39, 39, 0.502);
+  &__nav{
+    display: flex;
+    justify-content: center;
+
+    @media (min-width: 992px) { 
+      justify-content: flex-end;
+    }
+    .navbar-nav{
+      a{
+        padding:($grid-gutter-width / 6)($grid-gutter-width / 5) !important;
+        border-bottom: 2px solid transparent;
+
+        &:hover{
+          border-bottom: 2px solid #f95d9b !important;
+        }
+      }
+    }
+  }
+}

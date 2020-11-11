@@ -1,0 +1,10 @@
+@import 'bootstrap';
+
+
+.pr-register{
+  &__container{
+    background: $white;
+    padding: $grid-gutter-width;
+    border-radius: 30px;
+  }
+}

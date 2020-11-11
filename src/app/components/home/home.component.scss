@@ -1,0 +1,18 @@
+@import 'bootstrap';
+
+.pr-home{
+
+  &__photo-container{
+    width: 100%;
+    margin-top: 6rem;
+    background-color: rgba(0, 0, 0, 0.295);
+    img{
+      width: 100%;
+    }
+    #frontPageCarousel{
+      height: 100%;
+      text-align: center;
+      
+    }
+  }
+}

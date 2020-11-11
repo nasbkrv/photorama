@@ -1,0 +1,18 @@
+@import "bootstrap";
+
+html{
+  position: relative;
+  min-height: 100%;
+} 
+body { 
+  margin-bottom: 4rem;
+}
+body {  
+  font-family: Roboto, 
+  "Helvetica Neue", sans-serif; 
+  background-image: url('../assets/images/background.jpg');   
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
+  background-size: cover;
+}
