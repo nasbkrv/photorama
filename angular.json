@@ -30,12 +30,14 @@
             "styles": [
               "./node_modules/bootstrap/dist/css/bootstrap.min.css",
               "./node_modules/ngx-bootstrap/datepicker/bs-datepicker.css",
-              "src/styles/styles.scss"
+              "src/styles/styles.scss",
+              "./node_modules/@fancyapps/fancybox/dist/jquery.fancybox.min.css"
             ],
             "scripts": [
-              "./node_modules/jquery/dist/jquery.js",
+              "./node_modules/jquery/dist/jquery.min.js",
               "./node_modules/tether/dist/js/tether.js",
-              "./node_modules/bootstrap/dist/js/bootstrap.js"
+              "./node_modules/bootstrap/dist/js/bootstrap.js",
+              "./node_modules/@fancyapps/fancybox/dist/jquery.fancybox.min.js"
             ]
           },
           "configurations": {
@@ -100,12 +102,14 @@
             "styles": [
               "./node_modules/bootstrap/dist/css/bootstrap.min.css",
               "./node_modules/ngx-bootstrap/datepicker/bs-datepicker.css",
-              "src/styles/styles.scss"
+              "src/styles/styles.scss",
+              "./node_modules/@fancyapps/fancybox/dist/jquery.fancybox.min.css"
             ],
             "scripts": [
-              "./node_modules/jquery/dist/jquery.js",
+              "./node_modules/jquery/dist/jquery.min.js",
               "./node_modules/tether/dist/js/tether.js",
-              "./node_modules/bootstrap/dist/js/bootstrap.js"
+              "./node_modules/bootstrap/dist/js/bootstrap.js",
+              "./node_modules/@fancyapps/fancybox/dist/jquery.fancybox.min.js"
             ]
           }
         },

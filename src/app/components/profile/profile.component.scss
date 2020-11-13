@@ -1,5 +1,8 @@
 @import 'bootstrap';
 
+.modal {
+  overflow-y:auto;
+}
 .pr-profile{
   color: $white;
   
@@ -10,6 +13,9 @@
   .btn{
     background-color: $primary;
   }
+  button.edit{
+    background-color: $white;
+  }
   &__header{
     background: rgba(52, 58, 64, 0.8);
     border-bottom: 2px solid #ba5df9;
@@ -17,7 +23,33 @@
     padding: $grid-gutter-width / 3;
     padding-bottom: 0;
   }
-
+  .modal-lg{
+    max-width: 900px;
+  }
+  .modal-hedaer{
+    align-items: center;
+  }
+  .modal-content{
+    background-color: rgba(52, 58, 64, 0.9);
+  }
+  .modal-body{
+    height: auto;
+    overflow-y: auto;
+  }
+  .photo-modal{
+    .modal-lg{
+      max-width: 80vw;
+    }
+    img{
+      max-width: 100%;
+    }
+  }
+  &__edit-form{
+    width: 80%;
+    background: rgba(52, 58, 64, 0.8);
+    text-align: left;
+    margin: 0 auto;
+  }
   &__avatar{
     object-fit: cover;
     border-radius:100px;
@@ -70,13 +102,17 @@
 
   }
   &__gallery__item{
-    display: flex;
+    position: relative;
     justify-content: center;
     align-items: center;
     overflow: hidden;
-
-    img{
-      min-height: 100%;
+    height: 220px;
+    a{
+      max-height: 100%;
+      img{
+        max-width: 100%;
+        min-height: 100%;
+      }
     }
     .date-added{
       position: absolute;

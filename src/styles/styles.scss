@@ -3,11 +3,11 @@
 html{
   position: relative;
   min-height: 100%;
+  overflow-y: scroll;
 } 
 body { 
   margin-bottom: 4rem;
-}
-body {  
+  padding-right: 0 !important;
   font-family: Roboto, 
   "Helvetica Neue", sans-serif; 
   background-image: url('../assets/images/background.jpg');   
@@ -15,4 +15,7 @@ body {
   background-attachment: fixed;
   background-position: center;
   background-size: cover;
+}
+.compensate-for-scrollbar{
+  margin-right: 0 !important;
 }

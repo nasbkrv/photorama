@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { eventNames } from 'process';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
@@ -9,12 +10,19 @@ import { BrowserModule } from '@angular/platform-browser';
 export class ProfileComponent implements OnInit {
   name = 'Atanas Bekyarov';
   location = 'Sofia, Bulgaria';
-  age = '29 years old';
+  age = '29';
   bio = 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus laborum soluta facere molestiae ipsam rem maxime id error, quaerat quis, praesentium, alias ratione quo. Quasi repellat minima in minus iste. ';
   socials = [];
-  galery = []
+  gallery = [];
+  imgForModal = '';
+  showImage($event){
+    const target = $event.target || $event.srcElement || $event.currentTarget;
+    const imgSrc = target.src;
+    this.imgForModal = imgSrc;
+  }
+
   constructor() { 
-    this.galery = [
+    this.gallery = [
       '../../../assets/images/Galery/1.jpg',
       '../../../assets/images/Galery/2.jpg',
       '../../../assets/images/Galery/3.jpg',
