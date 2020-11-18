@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { CommunityComponent } from './components/community/community.component';
+import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
 import { NewComponent } from './components/new/new.component';
@@ -12,7 +13,6 @@ const routes: Routes = [
   {
     path: '',
     component: HomeComponent,
-    canActivate: [PhotoramaGuard]
   },
   {
     path: 'login',
@@ -29,16 +29,22 @@ const routes: Routes = [
   },
   {
     path: 'community',
-    component: CommunityComponent
+    component: CommunityComponent,
+    canActivate: [PhotoramaGuard]
   },
   {
     path: 'new',
-    component: NewComponent
-  }
+    component: NewComponent,
+    canActivate: [PhotoramaGuard]
+  },
+  {
+    path: 'forgot-password',
+    component: ForgotPasswordComponent
+  },
 ];
 
 @NgModule({
-  declarations:[],
+  declarations: [],
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })

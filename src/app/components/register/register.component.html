@@ -2,22 +2,31 @@
   <div class="row justify-content-end mt-5">
     <div class="col-xl-6">
       <div class="pr-register__container">
+        <h3 class="mb-3 border-bottom">Register</h3>
         <form>
+          <div class="form-group">
+            <label for="password">Username</label>
+            <input type="text" class="form-control" id="register-username" placeholder="@username" #username required>
+          </div>
+          <div class="form-group">
+            <label for="password">Full Name</label>
+            <input type="text" class="form-control" id="register-fullName" placeholder="Full Name" #fullName required>
+          </div>
           <div class="form-group">
             <label for="email">Email address</label>
             <input type="email" class="form-control" id="email-register" aria-describedby="emailHelp"
-              placeholder="Enter email">
+              placeholder="Enter email" #email required>
             <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
           </div>
           <div class="form-group">
             <label for="password">Password</label>
-            <input type="password" class="form-control" id="register-password" placeholder="Password">
+            <input type="password" class="form-control" id="register-password" placeholder="Password" #password required>
           </div>
-          <div class="form-group">
-            <label for="exampleInputPassword1">Repeat Password</label>
-            <input type="password" class="form-control" id="register-password-repeat" placeholder="Password">
+          <div class="text-right">
+            <a routerLink="/login">Already have an account?</a>
           </div>
-          <button type="submit" class="btn btn-primary">Submit</button>
+          <input type="button" class="btn btn-primary" value="Register"
+            (click)="authService.SignUp(username.value,fullName.value,email.value,password.value)">
         </form>
       </div>
     </div>

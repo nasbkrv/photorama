@@ -11,6 +11,9 @@
     @media (min-width: 992px) { 
       justify-content: flex-end;
     }
+    .upload-btn{
+      color: #15f856 !important;
+    }
     .navbar-nav{
       a{
         padding:($grid-gutter-width / 6)($grid-gutter-width / 5) !important;

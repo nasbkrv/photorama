@@ -106,12 +106,21 @@
     justify-content: center;
     align-items: center;
     overflow: hidden;
-    height: 220px;
+    height: 300px;
+    
+    @media (min-width: 576px){
+      height: 220px;
+    }
     a{
-      max-height: 100%;
       img{
-        max-width: 100%;
-        min-height: 100%;
+        position: absolute;
+        top: -9999px;
+        bottom: -9999px;
+        left: -9999px;
+        right: -9999px;
+        margin: auto;
+        height: 100%;
+        min-width: 100%;
       }
     }
     .date-added{

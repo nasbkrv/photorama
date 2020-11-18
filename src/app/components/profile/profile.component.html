@@ -1,10 +1,10 @@
-<div class="pr-profile mt-5">
+<div *ngIf="userData" class="pr-profile mt-5">
   <div class="container">
     <div class="row pr-profile__header justify-content-center">
       <div class="col-xs-12 col-lg-4 text-center text-lg-right p-0 mt-3">
-        <h2>{{ name }}</h2>
-        <p class="pr-0 pr-lg-3">{{ location }}</p>
-        <p class="pr-0 pr-lg-4">{{ age }} years old</p>
+        <h2>{{ userData.fullName  }}</h2>
+        <p class="pr-0 pr-lg-3">{{ userData.location }}</p>
+        <p class="pr-0 pr-lg-4">{{ userData.age }} years old</p>
         <button type="button" class="btn btn-white mr-3 edit" data-toggle="modal" data-target=".settings-modal">
           <i class="fas fa-user-cog"></i> Edit Profile
         </button>
@@ -29,28 +29,23 @@
                         </div>
                         <div class="form-group mt-3">
                           <label for="fullNameInput">Full Name</label>
-                          <input type="text" class="form-control" id="fullNameInput" aria-describedby="emailHelp"
-                            placeholder="Enter your full name" value="{{ name }}">
+                          <input type="text" class="form-control" id="fullNameInput" placeholder="Enter your full name" value="{{userData.fullName}}">
                         </div>
                         <div class="form-group">
                           <label for="emailInput">Email address</label>
-                          <input type="email" class="form-control" id="emailInput" aria-describedby="emailHelp"
-                            placeholder="Enter email">
+                          <input type="email" class="form-control" id="emailInput" placeholder="Enter email">
                         </div>
                         <div class="form-group">
                           <label for="ageInput">Age</label>
-                          <input type="text" class="form-control" id="ageInput" aria-describedby="emailHelp"
-                            placeholder="Enter your age" value="{{ age }}">
+                          <input type="text" class="form-control" id="ageInput" placeholder="Enter your age">
                         </div>
                         <div class="form-group">
                           <label for="locationInput">Location</label>
-                          <input type="text" class="form-control" id="locationInput" aria-describedby="emailHelp"
-                            placeholder="Enter your location" value="{{ location }}">
+                          <input type="text" class="form-control" id="locationInput" placeholder="Enter your location">
                         </div>
                         <div class="form-group">
                           <label for="websiteInput">Website</label>
-                          <input type="text" class="form-control" id="websiteInput" aria-describedby="emailHelp"
-                            placeholder="Enter your website" >
+                          <input type="text" class="form-control" id="websiteInput" placeholder="Enter your website">
                         </div>
                       </div>
                       <div class="col-12 col-md-6">
@@ -102,21 +97,21 @@
         <h4 class="py-2">
           Follow me:
         </h4>
-        <div class="pr-profile__socials py-2">
-          <span *ngFor="let media of socials">
-            <a *ngIf="media.link" href="{{media.link}}">
-              <i class="fab fa-{{media.name}} pr-{{media.name}}"></i>
+        <div *ngIf="userData.socials" class="pr-profile__socials py-2">
+          <div *ngFor="let media of userData.socials | keyvalue">
+            <a  href="{{media.value}}">
+              <i class="fab fa-{{media.key}} pr-{{media.key}}"></i>
             </a>
-          </span>
+          </div>
         </div>
         <div class="row my-3 text-center justify-content-center h6">
           <div class="col-4">
             <div>Followers:</div>
-            <div>24903</div>
+            <div *ngIf="userData.metrics">{{ userData.metrics.followers.length}}</div>
           </div>
           <div class="col-4">
-            <div>Followers:</div>
-            <div>24503</div>
+            <div>Following:</div>
+            <div *ngIf="userData.metrics">{{ userData.metrics.following.length}}</div>
           </div>
         </div>
       </div>
@@ -125,19 +120,19 @@
         </div>
         <div class="row px-5 py-3">
           <div class="col text-center">
-            <p class="text-center">{{ bio }}</p>
+            <!-- <p class="text-center">{{ bio }}</p> -->
           </div>
         </div>
       </div>
     </div>
 
-    <div class="row pr-profile__gallery no-gutters py-5">
-      <div *ngFor="let imageUrl of gallery" class="col-12 col-md-4 pr-profile__gallery__item">
+    <!-- <div *ngIf="userData.photos" class="row pr-profile__gallery no-gutters py-5">
+      <div *ngFor="let imageUrl of userData.photos" class="col-12 col-sm-6 col-md-4 pr-profile__gallery__item">
         <a href="{{imageUrl}}" data-fancybox="images">
           <img src='{{imageUrl}}' alt="" srcset="" >
         </a>
         <span class="date-added">3 days ago</span>
       </div>
-    </div>
+    </div> -->
   </div>
 </div>
