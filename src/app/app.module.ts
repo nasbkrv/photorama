@@ -20,7 +20,7 @@ import { environment } from '../environments/environment';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { AuthService } from './services/auth.service'
 import { UserdataService } from './services/userdata.service'
-
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -40,6 +40,8 @@ import { UserdataService } from './services/userdata.service'
     BrowserAnimationsModule,
     MatIconModule,
     CommonModule,
+    FormBuilder,
+    ReactiveFormsModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule,
     AngularFirestoreModule,

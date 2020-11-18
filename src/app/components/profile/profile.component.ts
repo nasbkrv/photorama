@@ -4,7 +4,7 @@ import { AuthService } from '../../services/auth.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { UserSettings } from 'src/app/services/userSettings';
 import { UserdataService } from '../../services/userdata.service';
-
+import { FormBuilder } from '@angular/forms';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
@@ -13,21 +13,43 @@ import { UserdataService } from '../../services/userdata.service';
 })
 
 export class ProfileComponent implements OnInit, OnDestroy {
-  _userData = {};
-
+  _userData;
+  userSettingsForm;
   constructor(
     public afAuth: AngularFireAuth,
     public firestore: AngularFirestore,
     public authService: AuthService,
-    public userService: UserdataService
+    public userService: UserdataService,
+    private formBuilder: FormBuilder
   ) {
-
+    this.userSettingsForm = this.formBuilder.group({
+      fullName: '',
+      email: '',
+      age: '',
+      location: '',
+      website: '',
+      facebook: '',
+      instagram: '',
+      twitter: '',
+      youtube: '',
+      flickr: ''
+    })
   }
   set userData(value) {
     this._userData = value;
   }
   get userData() {
     return this._userData;
+  }
+  updateUserData(dataInput) {
+    const usersRef = this.firestore.collection('users', ref => ref.where('email', '==', this.userData.email));
+    let username;
+    usersRef.get().subscribe(data => {
+      data.forEach(doc => {
+        doc.ref.update({ dataInput })
+      })
+    })
+    this.userSettingsForm.reset();
   }
   ngOnInit() {
     this.userService.getLoggedInUserData().subscribe(data => {

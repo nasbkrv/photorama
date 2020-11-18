@@ -20,8 +20,9 @@
                 </button>
               </div>
               <div class="modal-body">
+                <!-- fullName.value,email.value,age.value,location.value,website.value,facebook.value,instagram.value, twitter.value, youtube.value, flickr.value -->
                 <div class="pr-profile__edit-form py-3">
-                  <form>
+                  <form [formGroup]="userSettingsForm" (ngSubmit)="updateUserData(userSettingsForm.value)">
                     <div class="row">
                       <div class="col-12 col-md-6">
                         <div>
@@ -29,23 +30,28 @@
                         </div>
                         <div class="form-group mt-3">
                           <label for="fullNameInput">Full Name</label>
-                          <input type="text" class="form-control" id="fullNameInput" placeholder="Enter your full name" value="{{userData.fullName}}">
+                          <input type="text" class="form-control" id="fullNameInput" placeholder="Enter your full name"
+                            value="{{userData.fullName}}" formControlName="fullName">
                         </div>
                         <div class="form-group">
                           <label for="emailInput">Email address</label>
-                          <input type="email" class="form-control" id="emailInput" placeholder="Enter email">
+                          <input type="email" class="form-control" id="emailInput" placeholder="Enter email"
+                            value="{{userData.email}}" formControlName="email">
                         </div>
                         <div class="form-group">
                           <label for="ageInput">Age</label>
-                          <input type="text" class="form-control" id="ageInput" placeholder="Enter your age">
+                          <input type="text" class="form-control" id="ageInput" placeholder="Enter your age"
+                            value="{{userData.age}}" formControlName="age">
                         </div>
                         <div class="form-group">
                           <label for="locationInput">Location</label>
-                          <input type="text" class="form-control" id="locationInput" placeholder="Enter your location">
+                          <input type="text" class="form-control" id="locationInput" placeholder="Enter your location"
+                            value="{{userData.location}}" formControlName="location">
                         </div>
                         <div class="form-group">
                           <label for="websiteInput">Website</label>
-                          <input type="text" class="form-control" id="websiteInput" placeholder="Enter your website">
+                          <input type="text" class="form-control" id="websiteInput" placeholder="Enter your website"
+                            value="{{userData.website}}" formControlName="website">
                         </div>
                       </div>
                       <div class="col-12 col-md-6">
@@ -53,26 +59,29 @@
                           <h5 class="mb-1">Social profiles:</h5>
                         </div>
                         <div class="form-group mt-3">
-                          <label for="facebookAccount">Facebook:</label>
-                          <input type="text" class="form-control" id="facebookAccount"
-                            aria-describedby="facebookAccount">
+                          <label for="facebook">Facebook:</label>
+                          <input *ngIf="userData.socials.facebook" type="text" class="form-control" aria-describedby="facebook"
+                            value="{{ userData.socials.facebook }}" formControlName="facebook">
                         </div>
                         <div class="form-group">
-                          <label for="instagramAccount">Instagram:</label>
-                          <input type="text" class="form-control" id="instagramAccount"
-                            aria-describedby="instagramAccount">
+                          <label for="instagram">Instagram:</label>
+                          <input *ngIf="userData.socials" type="text" class="form-control" aria-describedby="instagram"
+                            value="{{ userData.socials.instagram }}" formControlName="instagram">
                         </div>
                         <div class="form-group">
-                          <label for="twitterAccount">Twitter:</label>
-                          <input type="text" class="form-control" id="twitterAccount" aria-describedby="twitterAccount">
+                          <label for="twitter">Twitter:</label>
+                          <input *ngIf="userData.socials" type="text" class="form-control" aria-describedby="twitter"
+                            value="{{ userData.socials.twitter }}" formControlName="twitter">
                         </div>
                         <div class="form-group">
-                          <label for="youtubeAccount">YouTube:</label>
-                          <input type="text" class="form-control" id="youtubeAccount" aria-describedby="youtubeAccount">
+                          <label for="youtube">YouTube:</label>
+                          <input *ngIf="userData.socials" type="text" class="form-control" aria-describedby="youtube"
+                            value="{{ userData.socials.youtube }}" formControlName="youtube">
                         </div>
                         <div class="form-group">
-                          <label for="flickrAccount">Flickr:</label>
-                          <input type="text" class="form-control" id="flickrAccount" aria-describedby="flickrAccount">
+                          <label for="flickr">Flickr:</label>
+                          <input *ngIf="userData.socials" type="text" class="form-control" aria-describedby="flickr"
+                            value="{{ userData.socials.flickr }}" formControlName="flickr">
                         </div>
                       </div>
                     </div>
@@ -99,7 +108,7 @@
         </h4>
         <div *ngIf="userData.socials" class="pr-profile__socials py-2">
           <div *ngFor="let media of userData.socials | keyvalue">
-            <a  href="{{media.value}}">
+            <a href="{{media.value}}">
               <i class="fab fa-{{media.key}} pr-{{media.key}}"></i>
             </a>
           </div>

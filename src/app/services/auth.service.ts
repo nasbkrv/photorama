@@ -8,13 +8,7 @@ import { Router } from "@angular/router";
 @Injectable()
 
 export class AuthService {
-  userData: User; // Save logged in user data
-  get data(){
-    return this.userData;
-  }
-  set data(value){
-    this.userData = value;
-  }
+
   constructor(
     public firestore: AngularFirestore,   // Inject Firestore service
     public afAuth: AngularFireAuth, // Inject Firebase auth service
@@ -25,7 +19,6 @@ export class AuthService {
     logged in and setting up null when logged out */
     this.afAuth.authState.subscribe(user => {
       if (user) {
-        this.data = user;
         user.getIdToken()
           .then(token => {
             localStorage.setItem('user', token);
@@ -73,7 +66,8 @@ export class AuthService {
               twitter: '',
               youtube: '',
               flickr: '',
-            }
+            },
+            website: ''
           }
           await this.addFsUser(username, data);
           this.SignOut();

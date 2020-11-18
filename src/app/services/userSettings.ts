@@ -7,4 +7,5 @@ export class UserSettings {
   photos: any;
   metrics: any;
   socials: any;
+  website: string;
 }
