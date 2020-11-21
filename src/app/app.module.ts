@@ -18,9 +18,10 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { environment } from '../environments/environment';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
-import { AuthService } from './services/auth.service'
-import { UserdataService } from './services/userdata.service'
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { AuthService } from './services/auth.service';
+import { UserdataService } from './services/userdata.service';
+import { FormsModule } from '@angular/forms';
+import { SpinnerComponent } from './components/spinner/spinner.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
     CommunityComponent,
     NewComponent,
     ForgotPasswordComponent,
+    SpinnerComponent,
   ],
   imports: [
     BrowserModule,
@@ -40,8 +42,7 @@ import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
     BrowserAnimationsModule,
     MatIconModule,
     CommonModule,
-    FormBuilder,
-    ReactiveFormsModule,
+    FormsModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule,
     AngularFirestoreModule,

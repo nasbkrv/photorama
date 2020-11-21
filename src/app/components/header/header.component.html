@@ -11,28 +11,28 @@
           <a routerLink="/" class="nav-item nav-link active" >
             Home
           </a>
-          <a *ngIf="!authService.isLoggedIn" routerLink="/login" class="nav-item nav-link active" >
+          <a *ngIf="!isLoggedIn" routerLink="/login" class="nav-item nav-link active" >
             Login
           </a>
-          <a *ngIf="!authService.isLoggedIn" routerLink="/register" class="nav-item nav-link active" >
+          <a *ngIf="!isLoggedIn" routerLink="/register" class="nav-item nav-link active" >
             Register
           </a>
-          <a *ngIf="authService.isLoggedIn" routerLink="/profile" class="nav-item nav-link active" >
+          <a *ngIf="isLoggedIn && headerData" [routerLink]="['/profile', headerData.username]" class="nav-item nav-link active" >
             Profile
           </a>
-          <a *ngIf="authService.isLoggedIn" routerLink="/new" class="nav-item nav-link active" >
+          <a *ngIf="isLoggedIn" routerLink="/new" class="nav-item nav-link active" >
             <i class="fab fa-envira d-none d-lg-inline"></i>
             New
           </a>
-          <a *ngIf="authService.isLoggedIn" routerLink="/community" class="nav-item nav-link active" >
+          <a *ngIf="isLoggedIn" routerLink="/community" class="nav-item nav-link active" >
             <i class="fas fa-comments d-none d-lg-inline"></i>
             Community
           </a>
-          <a *ngIf="authService.isLoggedIn" routerLink="/upload" class="nav-item nav-link active upload-btn" >
+          <a *ngIf="isLoggedIn" routerLink="/upload" class="nav-item nav-link active upload-btn" >
             <i class="fas fa-chevron-circle-up"></i>
             Upload
           </a>
-          <a *ngIf="authService.isLoggedIn" (click)="authService.SignOut()" class="nav-item nav-link active" >
+          <a *ngIf="isLoggedIn" (click)="authService.SignOut()" class="nav-item nav-link active" >
             Logout
           </a>
         </div>

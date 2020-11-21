@@ -1,13 +1,23 @@
 <div *ngIf="userData" class="pr-profile mt-5">
   <div class="container">
-    <div class="row pr-profile__header justify-content-center">
+    <div class="w-100 d-flex justify-content-center">
+      <app-spinner *ngIf="showSpinner" class="position-absolute mt-5 pt-5 "></app-spinner>
+    </div>
+    <div *ngIf="userData.avatarUrl" class="row pr-profile__header justify-content-center">
       <div class="col-xs-12 col-lg-4 text-center text-lg-right p-0 mt-3">
         <h2>{{ userData.fullName  }}</h2>
-        <p class="pr-0 pr-lg-3">{{ userData.location }}</p>
-        <p class="pr-0 pr-lg-4">{{ userData.age }} years old</p>
-        <button type="button" class="btn btn-white mr-3 edit" data-toggle="modal" data-target=".settings-modal">
+        <h5 *ngIf="userData.username" class="mr-3 mb-3 pr-profile--website">@{{ userData.username }}</h5>
+        <button *ngIf="userData.username && isSameUser" type="button" class="btn btn-white mr-3 mb-3 edit" data-toggle="modal" data-target=".settings-modal">
           <i class="fas fa-user-cog"></i> Edit Profile
         </button>
+        <div *ngIf="userData.username && !isSameUser" class="btn btn-primary px-4 mr-4 mb-3 ">
+          Follow
+          <i class="far fa-heart ml-2"></i>
+        </div>
+        <p class="pr-0 pr-lg-3 mb-3">{{ userData.location }} <span *ngIf="userData.age && userData.location"> | </span> <span *ngIf="userData.age">{{ userData.age }} years
+            old</span></p>
+        <p class="pr-0">{{ userData.website }}</p>
+
         <!-- SETTINGS MODAL -->
         <div class="modal fade settings-modal" tabindex="-1" role="dialog" aria-labelledby="Account Settings"
           aria-hidden="true">
@@ -20,38 +30,37 @@
                 </button>
               </div>
               <div class="modal-body">
-                <!-- fullName.value,email.value,age.value,location.value,website.value,facebook.value,instagram.value, twitter.value, youtube.value, flickr.value -->
                 <div class="pr-profile__edit-form py-3">
-                  <form [formGroup]="userSettingsForm" (ngSubmit)="updateUserData(userSettingsForm.value)">
+                  <form #userSettingsForm="ngForm" (ngSubmit)="updateUserData(userSettingsForm)">
                     <div class="row">
                       <div class="col-12 col-md-6">
                         <div>
                           <h5 class="mb-1">Account details:</h5>
                         </div>
                         <div class="form-group mt-3">
-                          <label for="fullNameInput">Full Name</label>
-                          <input type="text" class="form-control" id="fullNameInput" placeholder="Enter your full name"
-                            value="{{userData.fullName}}" formControlName="fullName">
+                          <label for="fullName">Full Name</label>
+                          <input ngModel="{{userData.fullName}}" name="fullName" #fullNameInput="ngModel" id="fullName"
+                            type="text" class="form-control">
                         </div>
                         <div class="form-group">
-                          <label for="emailInput">Email address</label>
-                          <input type="email" class="form-control" id="emailInput" placeholder="Enter email"
-                            value="{{userData.email}}" formControlName="email">
+                          <label for="email">Email address</label>
+                          <input ngModel="{{userData.email}}" name="email" #emailInput="ngModel" id="email" type="email"
+                            class="form-control">
                         </div>
                         <div class="form-group">
-                          <label for="ageInput">Age</label>
-                          <input type="text" class="form-control" id="ageInput" placeholder="Enter your age"
-                            value="{{userData.age}}" formControlName="age">
+                          <label for="age">Age</label>
+                          <input ngModel="{{userData.age}}" name="age" #ageInput="ngModel" id="age" type="text"
+                            class="form-control">
                         </div>
                         <div class="form-group">
-                          <label for="locationInput">Location</label>
-                          <input type="text" class="form-control" id="locationInput" placeholder="Enter your location"
-                            value="{{userData.location}}" formControlName="location">
+                          <label for="location">Location</label>
+                          <input ngModel="{{userData.location}}" name="location" #locationInput="ngModel" id="location"
+                            type="text" class="form-control">
                         </div>
                         <div class="form-group">
-                          <label for="websiteInput">Website</label>
-                          <input type="text" class="form-control" id="websiteInput" placeholder="Enter your website"
-                            value="{{userData.website}}" formControlName="website">
+                          <label for="website">Website</label>
+                          <input ngModel="{{userData.website}}" name="website" #websiteInput="ngModel" id="website"
+                            type="text" class="form-control" placeholder="Enter your website">
                         </div>
                       </div>
                       <div class="col-12 col-md-6">
@@ -60,33 +69,48 @@
                         </div>
                         <div class="form-group mt-3">
                           <label for="facebook">Facebook:</label>
-                          <input *ngIf="userData.socials.facebook" type="text" class="form-control" aria-describedby="facebook"
-                            value="{{ userData.socials.facebook }}" formControlName="facebook">
+                          <input ngModel="{{userData.socials.facebook}}" name="facebook" #facebook="ngModel"
+                            id="facebook" type="text" class="form-control" *ngIf="userData.socials">
                         </div>
                         <div class="form-group">
                           <label for="instagram">Instagram:</label>
-                          <input *ngIf="userData.socials" type="text" class="form-control" aria-describedby="instagram"
-                            value="{{ userData.socials.instagram }}" formControlName="instagram">
+                          <input ngModel="{{userData.socials.instagram}}" name="instagram" #instagram="ngModel"
+                            id="instagram" type="text" class="form-control" *ngIf="userData.socials">
                         </div>
                         <div class="form-group">
                           <label for="twitter">Twitter:</label>
-                          <input *ngIf="userData.socials" type="text" class="form-control" aria-describedby="twitter"
-                            value="{{ userData.socials.twitter }}" formControlName="twitter">
+                          <input ngModel="{{userData.socials.twitter}}" name="twitter" #twitter="ngModel" id="twitter"
+                            type="text" class="form-control" *ngIf="userData.socials">
                         </div>
                         <div class="form-group">
                           <label for="youtube">YouTube:</label>
-                          <input *ngIf="userData.socials" type="text" class="form-control" aria-describedby="youtube"
-                            value="{{ userData.socials.youtube }}" formControlName="youtube">
+                          <input ngModel="{{userData.socials.youtube}}" name="youtube" #youtube="ngModel" id="youtube"
+                            type="text" class="form-control" *ngIf="userData.socials">
                         </div>
                         <div class="form-group">
                           <label for="flickr">Flickr:</label>
-                          <input *ngIf="userData.socials" type="text" class="form-control" aria-describedby="flickr"
-                            value="{{ userData.socials.flickr }}" formControlName="flickr">
+                          <input ngModel="{{userData.socials.flickr}}" name="flickr" #flickr="ngModel" id="flickr"
+                            type="text" class="form-control" *ngIf="userData.socials">
+                        </div>
+                      </div>
+                      <div class="col-12 col-md-6 my-2">
+                        <h5>Change profile photo:</h5>
+                      </div>
+                      <div class="col-12 col-md-6">
+                        <input type="file" name="avatarUpload" id="avatarUpload" accept=".png,.jpg"
+                          (change)="uploadEvent($event)">
+                      </div>
+                      <div class="col-12">
+                        <div class="form-group">
+                          <label for="bio">Bio:</label>
+                          <textarea ngModel="{{userData.bio}}" name="bio" #bio="ngModel" id="bio" type="text"
+                            class="form-control"  cols="30" rows="4">
+                          </textarea>
                         </div>
                       </div>
                     </div>
                     <div class="text-center mt-2">
-                      <button type="submit" class="btn btn-primary px-3">Save changes</button>
+                      <button class="btn btn-primary px-3">Save changes</button>
                     </div>
                   </form>
                 </div>
@@ -94,13 +118,10 @@
             </div>
           </div>
         </div>
-        <div class="btn btn-primary px-4 mr-3">
-          Follow
-          <i class="far fa-heart ml-2"></i>
-        </div>
       </div>
       <div class="col-xs-12 col-lg-3 d-flex justify-content-center align-items-center mt-3 px-0">
-        <img src="../../../assets/images/IMG_20180422_101206_263.jpg" alt="" srcset="" class="pr-profile__avatar">
+        
+        <img (load)="hideSpinner()" src="{{userData.avatarUrl}}" class="pr-profile__avatar text-center ">
       </div>
       <div class="col-xs-12 col-lg-4 text-center text-lg-left p-0 mt-3">
         <h4 class="py-2">
@@ -129,7 +150,7 @@
         </div>
         <div class="row px-5 py-3">
           <div class="col text-center">
-            <!-- <p class="text-center">{{ bio }}</p> -->
+            <p class="text-center">{{ userData.bio }}</p>
           </div>
         </div>
       </div>
@@ -142,6 +163,7 @@
         </a>
         <span class="date-added">3 days ago</span>
       </div>
-    </div> -->
+    </div> 
+  -->
   </div>
 </div>

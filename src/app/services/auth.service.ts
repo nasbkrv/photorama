@@ -33,9 +33,7 @@ export class AuthService {
   SignIn(email, password) {
     return this.afAuth.signInWithEmailAndPassword(email, password)
       .then((result) => {
-        this.ngZone.run(() => {
-          this.router.navigate(['profile']);
-        });
+          this.router.navigate(['/']);
       }).catch((error) => {
         window.alert(error.message)
       })
@@ -51,6 +49,7 @@ export class AuthService {
         .then(async (cred) => {
           const data: UserSettings = {
             uid: cred.user.uid,
+            username: username,
             fullName: fullName,
             email: email,
             age: '',
@@ -67,7 +66,9 @@ export class AuthService {
               youtube: '',
               flickr: '',
             },
-            website: ''
+            website: '',
+            bio: '',
+            avatarUrl: 'https://firebasestorage.googleapis.com/v0/b/photorama-a622d.appspot.com/o/avatars%2Ficon-user-default.png?alt=media&token=e64728fb-c3b2-4484-a00b-1cfdfd03657c'
           }
           await this.addFsUser(username, data);
           this.SignOut();
@@ -93,13 +94,7 @@ export class AuthService {
   }
 
   // Returns true when user is looged in and email is verified
-  get isLoggedIn(): boolean {
-    let userToken = localStorage.getItem('user');
-    if (userToken === 'null') {
-      userToken = JSON.parse(userToken)
-    }
-    return userToken == null ? false : true;
-  }
+
 
   /* Setting up user data when sign in with username/password, 
   sign up with username/password and sign in with social auth  
@@ -120,10 +115,12 @@ export class AuthService {
   async addFsUser(username: string, data: UserSettings) {
     await this.firestore.collection('users').doc(username).set(data)
   }
+  
   // Sign out 
   SignOut() {
     return this.afAuth.signOut().then(() => {
       localStorage.removeItem('user');
+      
       this.router.navigate(['']);
     })
   }

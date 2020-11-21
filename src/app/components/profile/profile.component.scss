@@ -44,12 +44,16 @@
       max-width: 100%;
     }
   }
+  &--website{
+
+  }
   &__edit-form{
     width: 80%;
     background: rgba(52, 58, 64, 0.8);
     text-align: left;
     margin: 0 auto;
   }
+  
   &__avatar{
     object-fit: cover;
     border-radius:100px;
@@ -57,6 +61,8 @@
     height: 200px;
     border: 5px solid #ba5df9;
   }
+ 
+
   &__socials{
     display: flex;
     justify-content: space-around;
