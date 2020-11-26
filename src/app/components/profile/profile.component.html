@@ -7,16 +7,26 @@
       <div class="col-xs-12 col-lg-4 text-center text-lg-right p-0 mt-3">
         <h2>{{ userData.fullName  }}</h2>
         <h5 *ngIf="userData.username" class="mr-3 mb-3 pr-profile--website">@{{ userData.username }}</h5>
-        <button *ngIf="userData.username && isSameUser" type="button" class="btn btn-white mr-3 mb-3 edit" data-toggle="modal" data-target=".settings-modal">
+        <button *ngIf="userData.username && isSameUser" type="button" class="btn btn-white mr-3 mb-3 edit"
+          data-toggle="modal" data-target=".settings-modal">
           <i class="fas fa-user-cog"></i> Edit Profile
         </button>
-        <div *ngIf="userData.username && !isSameUser" class="btn btn-primary px-4 mr-4 mb-3 ">
+        <div *ngIf="userData.username && !isSameUser && !isUserFollowing;else following_btn"
+          class="btn btn-primary px-4 mr-4 mb-3 " (click)="followUser(userData.username)">
           Follow
           <i class="far fa-heart ml-2"></i>
         </div>
-        <p class="pr-0 pr-lg-3 mb-3">{{ userData.location }} <span *ngIf="userData.age && userData.location"> | </span> <span *ngIf="userData.age">{{ userData.age }} years
+        <ng-template #following_btn>
+          <div *ngIf="userData.username && !isSameUser && isUserFollowing"
+            class="btn btn-light text-primary border-primary px-4 mr-4 mb-3 " (click)="unfollowUser(userData.username)">
+            Unfollow
+            <i class="fas fa-heart ml-2"></i>
+          </div>
+        </ng-template>
+        <p class="pr-0 pr-lg-3 mb-3">{{ userData.location }} <span *ngIf="userData.age && userData.location"> | </span>
+          <span *ngIf="userData.age">{{ userData.age }} years
             old</span></p>
-        <p class="pr-0">{{ userData.website }}</p>
+        <a href="http://{{userData.website}}" class="pr-0">{{ userData.website }}</a>
 
         <!-- SETTINGS MODAL -->
         <div class="modal fade settings-modal" tabindex="-1" role="dialog" aria-labelledby="Account Settings"
@@ -104,7 +114,7 @@
                         <div class="form-group">
                           <label for="bio">Bio:</label>
                           <textarea ngModel="{{userData.bio}}" name="bio" #bio="ngModel" id="bio" type="text"
-                            class="form-control"  cols="30" rows="4">
+                            class="form-control" cols="30" rows="4">
                           </textarea>
                         </div>
                       </div>
@@ -120,7 +130,7 @@
         </div>
       </div>
       <div class="col-xs-12 col-lg-3 d-flex justify-content-center align-items-center mt-3 px-0">
-        
+
         <img (load)="hideSpinner()" src="{{userData.avatarUrl}}" class="pr-profile__avatar text-center ">
       </div>
       <div class="col-xs-12 col-lg-4 text-center text-lg-left p-0 mt-3">
@@ -156,14 +166,14 @@
       </div>
     </div>
 
-    <!-- <div *ngIf="userData.photos" class="row pr-profile__gallery no-gutters py-5">
-      <div *ngFor="let imageUrl of userData.photos" class="col-12 col-sm-6 col-md-4 pr-profile__gallery__item">
-        <a href="{{imageUrl}}" data-fancybox="images">
-          <img src='{{imageUrl}}' alt="" srcset="" >
-        </a>
-        <span class="date-added">3 days ago</span>
+    <div *ngIf="userData.photos" class="pr-profile__gallery">
+      <div class="pr-col" *ngFor="let imageUrl of userData.photos">
+        <figure class="pr-profile__gallery__item">
+          <a href="{{imageUrl}}" data-fancybox="images">
+            <img src='{{imageUrl}}' alt="" srcset="">
+          </a>
+        </figure>
       </div>
-    </div> 
-  -->
+    </div>
   </div>
 </div>

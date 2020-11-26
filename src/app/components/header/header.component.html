@@ -8,31 +8,35 @@
       </button>
       <div class="collapse navbar-collapse pr-header__nav" id="navbarNavAltMarkup">
         <div class="navbar-nav text-center">
-          <a routerLink="/" class="nav-item nav-link active" >
+          <a routerLink="/" class="nav-item nav-link active">
             Home
           </a>
-          <a *ngIf="!isLoggedIn" routerLink="/login" class="nav-item nav-link active" >
+          <a *ngIf="!isLoggedIn" routerLink="/login" class="nav-item nav-link active">
             Login
           </a>
-          <a *ngIf="!isLoggedIn" routerLink="/register" class="nav-item nav-link active" >
+          <a *ngIf="!isLoggedIn" routerLink="/register" class="nav-item nav-link active">
             Register
           </a>
-          <a *ngIf="isLoggedIn && headerData" [routerLink]="['/profile', headerData.username]" class="nav-item nav-link active" >
+          <a *ngIf="isLoggedIn && headerData" [routerLink]="['/profile', headerData.username]"
+            class="nav-item nav-link active">
             Profile
           </a>
-          <a *ngIf="isLoggedIn" routerLink="/new" class="nav-item nav-link active" >
+          <a *ngIf="isLoggedIn" routerLink="/new" class="nav-item nav-link active">
             <i class="fab fa-envira d-none d-lg-inline"></i>
             New
           </a>
-          <a *ngIf="isLoggedIn" routerLink="/community" class="nav-item nav-link active" >
+          <a *ngIf="isLoggedIn" routerLink="/community" class="nav-item nav-link active">
             <i class="fas fa-comments d-none d-lg-inline"></i>
             Community
           </a>
-          <a *ngIf="isLoggedIn" routerLink="/upload" class="nav-item nav-link active upload-btn" >
+          <a *ngIf="isLoggedIn" href="javascript:void(0)" class="nav-item nav-link active upload-btn" (click)="openFileDialog()">
             <i class="fas fa-chevron-circle-up"></i>
             Upload
+            <input type="file" name="photoUpload" id="photoUpload" accept=".png,.jpg" (change)="uploadEvent($event)"
+              hidden multiple>
           </a>
-          <a *ngIf="isLoggedIn" (click)="authService.SignOut()" class="nav-item nav-link active" >
+          <a *ngIf="isLoggedIn" (click)="authService.SignOut()" href="javascript:void(0)"
+            class="nav-item nav-link active">
             Logout
           </a>
         </div>
@@ -40,3 +44,4 @@
     </nav>
   </div>
 </div>
+<app-alert *ngIf="!isEmailVerified && isLoggedIn"></app-alert>

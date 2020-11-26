@@ -10,9 +10,7 @@
     background: rgba(52, 58, 64, 0.6);
     border-radius: 10px;
   }
-  .btn{
-    background-color: $primary;
-  }
+  
   button.edit{
     background-color: $white;
   }
@@ -52,6 +50,13 @@
     background: rgba(52, 58, 64, 0.8);
     text-align: left;
     margin: 0 auto;
+
+    input[type=file] {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      width: 100%;
+    }
   }
   
   &__avatar{
@@ -107,41 +112,55 @@
     }
 
   }
-  &__gallery__item{
-    position: relative;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-    height: 300px;
-    
-    @media (min-width: 576px){
-      height: 220px;
-    }
-    a{
-      img{
-        position: absolute;
-        top: -9999px;
-        bottom: -9999px;
-        left: -9999px;
-        right: -9999px;
-        margin: auto;
-        height: 100%;
-        min-width: 100%;
-      }
-    }
-    .date-added{
-      position: absolute;
-      bottom: 0;
-      left: 0.5rem;
-      color: rgba(255, 255, 255, 0.466);
-    }
-    &:hover{
-      cursor: pointer;
+  &__gallery{
+    margin: 1rem auto;
+    display: flex;
+    flex-wrap: wrap;
 
-      img{
-        filter: blur(1px);
+    .pr-col{
+      flex: 100%;
+      
+        @media only screen and (min-width: 502px) {  
+          flex: 50%;
+        }
+
+        @media only screen and (min-width: 768px ) {  
+          flex: 33.3333%;
+        }
+    }
+    &__item{ 
+      overflow: hidden;
+        a{
+          img {
+            width: 100%;
+            height: 15.625rem;
+            object-fit: cover;
+            object-position: 50% 50%;
+            transition: all .2s ease-in-out;
+        }
+
+        @media only screen and (min-width: 31.375em) {
+            // height: 25rem;
+    
+        }
+        @media only screen and (min-width: 81.25em) {  // 1300px
+            height: 28.125em;
+        }
+    }
+      .date-added{
+        position: absolute;
+        bottom: 0;
+        left: 0.5rem;
+        color: rgba(255, 255, 255, 0.466);
       }
-      background-color: $dark;
+      &:hover{
+        cursor: pointer;
+
+        img{
+          transform: scale(1.1) ;
+        }
+        // background-color: $dark;
+      }
     }
   }
 }

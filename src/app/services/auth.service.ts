@@ -54,7 +54,7 @@ export class AuthService {
             email: email,
             age: '',
             location: '',
-            photos: {},
+            photos: [],
             metrics: {
               followers: [],
               following: []
@@ -93,25 +93,6 @@ export class AuthService {
       })
   }
 
-  // Returns true when user is looged in and email is verified
-
-
-  /* Setting up user data when sign in with username/password, 
-  sign up with username/password and sign in with social auth  
-  provider in Firestore database using AngularFirestore + AngularFirestoreDocument service */
-  SetUserData(user) {
-    const userRef: AngularFirestoreDocument<any> = this.firestore.doc(`users/${user.uid}`);
-    const userData: User = {
-      uid: user.uid,
-      email: user.email,
-      displayName: user.displayName,
-      photoURL: user.photoURL,
-      emailVerified: user.emailVerified,
-    }
-    return userRef.set(userData, {
-      merge: true
-    })
-  }
   async addFsUser(username: string, data: UserSettings) {
     await this.firestore.collection('users').doc(username).set(data)
   }

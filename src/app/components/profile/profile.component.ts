@@ -6,8 +6,8 @@ import { UserdataService } from '../../services/userdata.service';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription, Observable } from 'rxjs';
-import { User } from '../../services/user';
 import jwtDecode from 'jwt-decode';
+import firebase from 'firebase/app';
 
 @Component({
   selector: 'app-profile',
@@ -23,14 +23,16 @@ export class ProfileComponent implements OnInit, OnDestroy {
   uidQuery: string;
   showSpinner: boolean = true;
   isSameUser: boolean = false;
-  
+  isUserFollowing: boolean = false;
+  currentAuthUserId;
+
   constructor(
     public afAuth: AngularFireAuth,
     public firestore: AngularFirestore,
     public authService: AuthService,
     public userService: UserdataService,
-    private router: Router,
-    private activatedRoute: ActivatedRoute
+    public router: Router,
+    public activatedRoute: ActivatedRoute
   ) {
     this.subscribtion = activatedRoute.params.subscribe((param) => {
       this.uidQuery = param['id'];
@@ -44,7 +46,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   get userData() {
     return this._userData;
   }
-  hideSpinner(){
+  hideSpinner() {
     this.showSpinner = false;
   }
   updateUserData(userSettingsForm: NgForm) {
@@ -75,20 +77,70 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.avatarPath = event.target.files[0];
     this.userService.uploadAvatar(this.avatarPath, this.userData.uid);
   }
-  ngOnInit() {    
-    this.userData = this.userService.getSingleUserData(this.uidQuery).subscribe((data : any) => {
+
+  followUser(userToFollow) {
+    const userRef = this.firestore.collection('users').doc(userToFollow);
+    let followUserId = this.userData.uid;
+    let currentUserRef = this.firestore.collection('users', ref => ref.where('uid', '==', this.currentAuthUserId));
+
+    userRef.get().subscribe(data => {
+      data.ref.update({
+        "metrics.followers":
+          firebase.firestore.FieldValue.arrayUnion(this.currentAuthUserId)
+      })
+      this.isUserFollowing = true;
+    })
+    currentUserRef.get().subscribe(data => {
+      data.forEach(doc => {
+        doc.ref.update({
+          "metrics.following":
+            firebase.firestore.FieldValue.arrayUnion(followUserId)
+        })
+      })
+    })
+  }
+  unfollowUser(userToUnfollow) {
+    const userRef = this.firestore.collection('users').doc(userToUnfollow);
+    let ufollowUserId = this.userData.uid;
+    let currentUserRef = this.firestore.collection('users', ref => ref.where('uid', '==', this.currentAuthUserId));
+
+    userRef.get().subscribe(data => {
+      data.ref.update({
+        "metrics.followers":
+          firebase.firestore.FieldValue.arrayRemove(this.currentAuthUserId)
+      })
+      this.isUserFollowing = false;
+    })
+    currentUserRef.get().subscribe(data => {
+      data.forEach(doc => {
+        doc.ref.update({
+          "metrics.following": 
+          firebase.firestore.FieldValue.arrayRemove(userToUnfollow)
+        })
+      })
+    })
+  }
+  ngOnInit() {
+    this.userData = this.userService.getSingleUserData(this.uidQuery).subscribe((data: any) => {
       this.userData = data;
+      if (this.userData.metrics.followers.includes(this.currentAuthUserId)) {
+        this.isUserFollowing = true;
+      }
       const token = localStorage.getItem('user');
       const decodedToken: any = jwtDecode(token);
-      const authUser = decodedToken.user_id;
-  
-      if(authUser == data.uid){
+      this.currentAuthUserId = decodedToken.user_id;
+
+      if (this.currentAuthUserId == data.uid) {
         this.isSameUser = true;
-      }else{
+      } else {
         this.isSameUser = false;
       }
+      
     })
-
+    this.userService.getLoggedInUserData().subscribe(data => {
+      this.userService.uServiceData = data[0];
+    })
+    
   }
   ngOnDestroy() {
 

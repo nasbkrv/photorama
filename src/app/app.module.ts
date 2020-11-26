@@ -22,6 +22,7 @@ import { AuthService } from './services/auth.service';
 import { UserdataService } from './services/userdata.service';
 import { FormsModule } from '@angular/forms';
 import { SpinnerComponent } from './components/spinner/spinner.component';
+import { AlertComponent } from './components/alert/alert.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { SpinnerComponent } from './components/spinner/spinner.component';
     NewComponent,
     ForgotPasswordComponent,
     SpinnerComponent,
+    AlertComponent,
   ],
   imports: [
     BrowserModule,
