@@ -74,6 +74,7 @@ export class UserdataService implements OnInit {
         .ref(`photos/${fileName}`)
         .put(file, metadata)
         .then(res => {
+
           uploadedFiles.push(res.state)
           storageRef.ref(`photos/${fileName}`)
             .getDownloadURL().subscribe(url => {
@@ -82,7 +83,12 @@ export class UserdataService implements OnInit {
                   data.forEach(doc => {
                     doc.ref.update({
                       photos:
-                        firebase.firestore.FieldValue.arrayUnion(url)
+                        firebase.firestore.FieldValue.arrayUnion({
+                          url,
+                          path: fileName,
+                          timeUploaded: res.metadata.timeCreated,
+                          generation: res.metadata.generation,
+                        })
                     })
                   })
                 })
@@ -117,7 +123,30 @@ export class UserdataService implements OnInit {
   getAllUsers() {
     return this.db.collection('users', ref => ref.orderBy('metrics.followers', 'asc')).get();
   }
-
+  getNewPhotos() {
+    const photosArr = [];
+    const storage = firebase.app().storage('gs://photorama-a622d.appspot.com/');
+    const storageRef = storage.ref();
+    const listRef = storageRef.child('photos/')
+    listRef.list({ maxResults: 50 })
+      .then(data => {
+        data.items.forEach(photo => {
+          let obj = {
+            url: '',
+            owner: '',
+            dateCreated: ''
+          };
+          photo.getMetadata().then(mdata => {
+            obj.dateCreated = mdata.timeCreated;
+            obj.owner = mdata.customMetadata.owner;
+          })
+          photo.getDownloadURL().then(url => {
+            obj.url = url;
+          })
+          photosArr.push(obj)
+        })
+      })
+  }
   ngOnInit() {
 
   }

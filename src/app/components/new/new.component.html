@@ -1,1 +1,22 @@
-<p>new works!</p>
+<div *ngIf="newPhotos" class="pr-new mt-5">
+  <div class="container">
+    <div class="w-100 d-flex justify-content-center">
+      <app-spinner *ngIf="showSpinner" class="position-absolute mt-5 pt-5 "></app-spinner>
+    </div>
+    <div class="row pr-new__header">
+      <div class="col py-3">
+        <h2><i class="fab fa-envira"></i> NEWEST PHOTOS</h2>
+      </div>
+    </div>
+    <div *ngIf="newPhotos" class="pr-new__gallery">
+      <div class="pr-col" *ngFor="let photo of newPhotos">
+        <figure class="pr-new__gallery__item">
+          <span timeago [date]="photo.timeCreated" [live]="live" class="date-added"></span>
+          <a href="{{photo.url}}" data-fancybox="images">
+            <img (load)="hideSpinner()" src='{{photo.url}}' alt="" srcset="">
+          </a>
+        </figure>
+      </div>
+    </div>
+  </div>
+</div>

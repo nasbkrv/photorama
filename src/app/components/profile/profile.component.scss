@@ -3,6 +3,12 @@
 .modal {
   overflow-y:auto;
 }
+.swal-yes-btn{
+  background-color: #1067ca;
+}
+.swal-no-btn{
+
+}
 .pr-profile{
   color: $white;
   
@@ -118,17 +124,18 @@
     flex-wrap: wrap;
 
     .pr-col{
-      flex: 100%;
+      width: 100%;
       
         @media only screen and (min-width: 502px) {  
-          flex: 50%;
+          width: 33.3333%;
         }
 
         @media only screen and (min-width: 768px ) {  
-          flex: 33.3333%;
+          width: 25%;
         }
     }
     &__item{ 
+      position: relative;
       overflow: hidden;
         a{
           img {
@@ -146,7 +153,18 @@
         @media only screen and (min-width: 81.25em) {  // 1300px
             height: 28.125em;
         }
-    }
+      }
+      .delete-photo{
+        position: absolute;
+        top: 0.5rem;
+        right: 1rem;
+        color: rgba(255, 255, 255);
+        z-index: 100;
+        background-color: #b11c1cd5;
+        border-radius: 5px;
+        padding: 2px 2.5px;
+        box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+      }
       .date-added{
         position: absolute;
         bottom: 0;

@@ -166,13 +166,15 @@
       </div>
     </div>
 
-    <div *ngIf="userData.photos" class="pr-profile__gallery">
-      <div class="pr-col" *ngFor="let imageUrl of userData.photos">
-        <figure class="pr-profile__gallery__item">
-          <a href="{{imageUrl}}" data-fancybox="images">
-            <img src='{{imageUrl}}' alt="" srcset="">
+    <div *ngIf="userData.photos" class="pr-profile__gallery pb-3">
+      <div class="pr-col" *ngFor="let photo of userData.photos">
+        <div class="pr-profile__gallery__item">
+          <span timeago [date]="photo.timeUploaded " [live]="live" class="date-added"></span>
+          <span *ngIf="userData.username && isSameUser" (click)="deletePhoto(photo.path)" class="delete-photo"> <i class="far fa-trash-alt"></i> Remove</span>
+          <a href="{{photo.url}}" data-fancybox="images">
+            <img src='{{photo.url}}' alt="Photo" srcset="">
           </a>
-        </figure>
+        </div>
       </div>
     </div>
   </div>

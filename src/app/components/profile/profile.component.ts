@@ -2,12 +2,14 @@ import { Component, Directive, OnDestroy, OnInit } from '@angular/core';
 import { AngularFireAuth } from "@angular/fire/auth";
 import { AuthService } from '../../services/auth.service';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFireStorage } from '@angular/fire/storage';
 import { UserdataService } from '../../services/userdata.service';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription, Observable } from 'rxjs';
 import jwtDecode from 'jwt-decode';
 import firebase from 'firebase/app';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-profile',
@@ -32,7 +34,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
     public authService: AuthService,
     public userService: UserdataService,
     public router: Router,
-    public activatedRoute: ActivatedRoute
+    public activatedRoute: ActivatedRoute,
+    public storage: AngularFireStorage
   ) {
     this.subscribtion = activatedRoute.params.subscribe((param) => {
       this.uidQuery = param['id'];
@@ -101,8 +104,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
   unfollowUser(userToUnfollow) {
     const userRef = this.firestore.collection('users').doc(userToUnfollow);
-    let ufollowUserId = this.userData.uid;
-    let currentUserRef = this.firestore.collection('users', ref => ref.where('uid', '==', this.currentAuthUserId));
+    const currentUserRef = this.firestore.collection('users', ref => ref.where('uid', '==', this.currentAuthUserId));
 
     userRef.get().subscribe(data => {
       data.ref.update({
@@ -114,15 +116,83 @@ export class ProfileComponent implements OnInit, OnDestroy {
     currentUserRef.get().subscribe(data => {
       data.forEach(doc => {
         doc.ref.update({
-          "metrics.following": 
-          firebase.firestore.FieldValue.arrayRemove(userToUnfollow)
+          "metrics.following":
+            firebase.firestore.FieldValue.arrayRemove(userToUnfollow)
         })
       })
+    })
+  }
+  deletePhoto(imageUrl) {
+    const photosRef = this.storage.ref(`photos/${imageUrl}`);
+    const currentUserRef = this.firestore.collection('users', ref => ref.where('uid', '==', this.currentAuthUserId));
+
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success mx-1',
+        cancelButton: 'btn btn-danger mx-1'
+      },
+      buttonsStyling: false
+    })
+    
+    swalWithBootstrapButtons.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'No, cancel!',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        photosRef
+        .delete()
+        .toPromise()
+        .then((res)=>{
+
+          currentUserRef
+          .get()
+          .subscribe(data => {
+            data.forEach(doc => {
+              const photosArr = doc.data().photos;
+              const filtered = photosArr.filter((el)=> {return el.path != imageUrl}) 
+              
+              doc.ref.update({
+                "photos":
+                  filtered
+              })
+            })
+          }) 
+        })
+        .then(()=>{
+          swalWithBootstrapButtons.fire(
+            'Deleted!',
+            'Your file has been deleted.',
+            'success'
+          )
+        })
+        .catch(err=>{
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: err 
+          })
+        })
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+
+        swalWithBootstrapButtons.fire(
+          'Cancelled',
+          'Your imaginary file is safe :)',
+          'error'
+        )
+      }
     })
   }
   ngOnInit() {
     this.userData = this.userService.getSingleUserData(this.uidQuery).subscribe((data: any) => {
       this.userData = data;
+      this.userData.photos.sort((a,b):any=>{
+        return b.generation - a.generation;
+      })
       if (this.userData.metrics.followers.includes(this.currentAuthUserId)) {
         this.isUserFollowing = true;
       }
@@ -135,12 +205,12 @@ export class ProfileComponent implements OnInit, OnDestroy {
       } else {
         this.isSameUser = false;
       }
-      
+
     })
     this.userService.getLoggedInUserData().subscribe(data => {
       this.userService.uServiceData = data[0];
     })
-    
+
   }
   ngOnDestroy() {
 

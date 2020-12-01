@@ -34,13 +34,13 @@ export class HeaderComponent implements OnInit {
     return userToken == null ? false : true;
   }
   checkEmailVerify() {
-    return this.authService.afAuth
+    this.authService.afAuth
       .currentUser
       .then(user => {
-        if (user != null && user.emailVerified) {
-          this.isEmailVerified = true;
-        }else{
+        if (user != null && user.emailVerified == false) {
           this.isEmailVerified = false;
+        }else{
+          this.isEmailVerified = true;
         }
       })
   }
@@ -54,6 +54,6 @@ export class HeaderComponent implements OnInit {
     this.userService.getLoggedInUserData().subscribe(data => {
       this.headerData = data[0];
     })
-    this.checkEmailVerify();
+    this.checkEmailVerify(); 
   }
 }

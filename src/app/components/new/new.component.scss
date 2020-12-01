@@ -1,0 +1,71 @@
+@import 'bootstrap';
+.pr-new{
+
+  .container{
+    background: rgba(52, 58, 64, 0.6);
+    border-radius: 10px;
+  }
+  &__header{
+    background: rgba(52, 58, 64, 0.8);
+    border-bottom: 2px solid #ba5df9;
+    border-radius: 10px;
+    padding: $grid-gutter-width / 3;
+    padding-bottom: 0;
+    color: $white;
+    .fa-envira{
+      color: #15f856;
+    }
+  }
+  &__gallery{
+    margin: 1rem auto;
+    display: flex;
+    flex-wrap: wrap;
+
+    .pr-col{
+      width: 100%;
+      
+        @media only screen and (min-width: 502px) {  
+          width: 50%;
+        }
+
+        @media only screen and (min-width: 768px ) {  
+          width: 25%;
+        }
+    }
+    &__item{ 
+      position: relative;
+      overflow: hidden;
+        a{
+          img {
+            width: 100%;
+            height: 15.625rem;
+            object-fit: cover;
+            object-position: 50% 50%;
+            transition: all .2s ease-in-out;
+        }
+
+        @media only screen and (min-width: 31.375em) {
+            // height: 25rem;
+    
+        }
+        @media only screen and (min-width: 81.25em) {  // 1300px
+            height: 28.125em;
+        }
+      }
+      .date-added{
+        position: absolute;
+        bottom: 0;
+        left: 0.5rem;
+        color: rgba(255, 255, 255, 0.466);
+      }
+      &:hover{
+        cursor: pointer;
+
+        img{
+          transform: scale(1.1) ;
+        }
+        // background-color: $dark;
+      }
+    }
+  }
+}

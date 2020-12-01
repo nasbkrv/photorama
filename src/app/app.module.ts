@@ -23,6 +23,7 @@ import { UserdataService } from './services/userdata.service';
 import { FormsModule } from '@angular/forms';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { AlertComponent } from './components/alert/alert.component';
+import { TimeagoModule } from 'ngx-timeago';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import { AlertComponent } from './components/alert/alert.component';
     AngularFireAuthModule,
     AngularFirestoreModule,
     AngularFireStorageModule,
+    TimeagoModule.forRoot()
   ],
   providers: [AuthService, UserdataService],
   bootstrap: [AppComponent]
