@@ -9,11 +9,17 @@
       </div>
     </div>
     <div *ngIf="newPhotos" class="pr-new__gallery">
-      <div class="pr-col" *ngFor="let photo of newPhotos">
+      <div class="pr-col" *ngFor="let photo of newPhotos | slice:0:20">
         <figure class="pr-new__gallery__item">
-          <span timeago [date]="photo.timeCreated" [live]="live" class="date-added"></span>
+          <div class="pr-new__gallery__item-info">
+            <a [routerLink]="['/profile', photo.username]" class="owner">
+              <img src="{{photo.avatarUrl}}" alt="User Avatar" class="owner-avatar">
+              <span class="owner-name ml-1">@{{photo.username}}</span>
+            </a>
+            <span timeago [date]="photo.timeCreated" [live]="live" class="date-added"></span>
+          </div>
           <a href="{{photo.url}}" data-fancybox="images">
-            <img (load)="hideSpinner()" src='{{photo.url}}' alt="" srcset="">
+            <img (load)="hideSpinner()" src='{{photo.url}}' alt="New Photo" class="new-photo">
           </a>
         </figure>
       </div>

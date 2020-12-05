@@ -35,7 +35,7 @@
             <div class="modal-content">
               <div class="modal-header py-2 px-5">
                 <h3 class="mb-0">Edit your profile</h3>
-                <button type="button" class="close my-auto p-0" data-dismiss="modal" aria-label="Close">
+                <button #closeModal type="button" class="close my-auto p-0" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true" class="text-white">&times;</span>
                 </button>
               </div>
@@ -106,9 +106,13 @@
                       <div class="col-12 col-md-6 my-2">
                         <h5>Change profile photo:</h5>
                       </div>
-                      <div class="col-12 col-md-6">
-                        <input type="file" name="avatarUpload" id="avatarUpload" accept=".png,.jpg"
-                          (change)="uploadEvent($event)">
+                      <div class="col-12 col-md-6 d-flex justify-content-around">
+                        <button type="button" class="btn btn-success" (click)="avatarUpload.click()">
+                          <span >Upload Avatar</span>
+                          <input type="file" name="avatarUpload" class="d-none" #avatarUpload accept=".png,.jpg"
+                            (change)="uploadEvent($event)">
+                        </button>
+                        <input type="button" value="Reset Avatar" class="btn btn-warning" (click)="resetAvatar(userData.uid)">
                       </div>
                       <div class="col-12">
                         <div class="form-group">
@@ -120,7 +124,7 @@
                       </div>
                     </div>
                     <div class="text-center mt-2">
-                      <button class="btn btn-primary px-3">Save changes</button>
+                      <button class="btn btn-primary px-3" (click)="closeModal.click()">Save changes</button>
                     </div>
                   </form>
                 </div>
@@ -170,7 +174,8 @@
       <div class="pr-col" *ngFor="let photo of userData.photos">
         <div class="pr-profile__gallery__item">
           <span timeago [date]="photo.timeUploaded " [live]="live" class="date-added"></span>
-          <span *ngIf="userData.username && isSameUser" (click)="deletePhoto(photo.path)" class="delete-photo"> <i class="far fa-trash-alt"></i> Remove</span>
+          <span *ngIf="userData.username && isSameUser" (click)="deletePhoto(photo.path)" class="delete-photo"> <i
+              class="far fa-trash-alt"></i> Remove</span>
           <a href="{{photo.url}}" data-fancybox="images">
             <img src='{{photo.url}}' alt="Photo" srcset="">
           </a>

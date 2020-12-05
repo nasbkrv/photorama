@@ -56,31 +56,62 @@ export class ProfileComponent implements OnInit, OnDestroy {
     const usersRef = this.firestore.collection('users', ref => ref.where('email', '==', this.userData.email));
     const formData = userSettingsForm.form.value;
 
-    usersRef.get().subscribe(data => {
-      data.forEach(doc => {
-        doc.ref.update({
-          fullName: formData.fullName,
-          email: formData.email,
-          age: formData.age,
-          location: formData.location,
-          socials: {
-            facebook: formData.facebook,
-            instagram: formData.instagram,
-            twitter: formData.twitter,
-            youtube: formData.youtube,
-            flickr: formData.flickr
-          },
-          website: formData.website,
-          bio: formData.bio
+    usersRef
+      .get()
+      .subscribe(data => {
+        data.forEach(doc => {
+          doc.ref.update({
+            fullName: formData.fullName,
+            email: formData.email,
+            age: formData.age,
+            location: formData.location,
+            socials: {
+              facebook: formData.facebook,
+              instagram: formData.instagram,
+              twitter: formData.twitter,
+              youtube: formData.youtube,
+              flickr: formData.flickr
+            },
+            website: formData.website,
+            bio: formData.bio
+          })
         })
       })
-    })
   }
   uploadEvent(event) {
     this.avatarPath = event.target.files[0];
     this.userService.uploadAvatar(this.avatarPath, this.userData.uid);
   }
+  async resetAvatar(uid): Promise<any> {
+    const usersRef = this.firestore.collection('users', ref => ref.where('uid', '==', uid));
+    try {
 
+      usersRef.get().subscribe(data => {
+        data.forEach(doc => {
+          doc.ref.update({
+            avatarUrl: 'https://firebasestorage.googleapis.com/v0/b/photorama-a622d.appspot.com/o/avatars%2Ficon-user-default.png?alt=media&token=e64728fb-c3b2-4484-a00b-1cfdfd03657c'
+          });
+        });
+      });
+      Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        title: '<span class="text-white">Your avatar has been reset!</span>',
+        showConfirmButton: false,
+        timer: 1500,
+        background: '#343a40',
+      });
+    } catch (err) {
+      Swal.fire({
+        position: 'top-start',
+        icon: 'error',
+        title: `<span class="text-white">${err}</span>`,
+        showConfirmButton: false,
+        timer: 1500,
+        background: '#343a40',
+      });
+    }
+  }
   followUser(userToFollow) {
     const userRef = this.firestore.collection('users').doc(userToFollow);
     let followUserId = this.userData.uid;
@@ -106,13 +137,15 @@ export class ProfileComponent implements OnInit, OnDestroy {
     const userRef = this.firestore.collection('users').doc(userToUnfollow);
     const currentUserRef = this.firestore.collection('users', ref => ref.where('uid', '==', this.currentAuthUserId));
 
-    userRef.get().subscribe(data => {
-      data.ref.update({
-        "metrics.followers":
-          firebase.firestore.FieldValue.arrayRemove(this.currentAuthUserId)
+    userRef
+      .get()
+      .subscribe(data => {
+        data.ref.update({
+          "metrics.followers":
+            firebase.firestore.FieldValue.arrayRemove(this.currentAuthUserId)
+        })
+        this.isUserFollowing = false;
       })
-      this.isUserFollowing = false;
-    })
     currentUserRef.get().subscribe(data => {
       data.forEach(doc => {
         doc.ref.update({
@@ -122,7 +155,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
       })
     })
   }
-  deletePhoto(imageUrl) {
+  deletePhoto(imageUrl: any) {
     const photosRef = this.storage.ref(`photos/${imageUrl}`);
     const currentUserRef = this.firestore.collection('users', ref => ref.where('uid', '==', this.currentAuthUserId));
 
@@ -133,64 +166,73 @@ export class ProfileComponent implements OnInit, OnDestroy {
       },
       buttonsStyling: false
     })
-    
+
     swalWithBootstrapButtons.fire({
-      title: 'Are you sure?',
-      text: "You won't be able to revert this!",
+      title: '<span class="text-white">Are you sure?</span>',
+      html: '<span class="text-white">You won\'t be able to revert this!</span>',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonText: 'Yes, delete it!',
       cancelButtonText: 'No, cancel!',
-      reverseButtons: true
+      background: '#343a40',
+
     }).then((result) => {
       if (result.isConfirmed) {
         photosRef
-        .delete()
-        .toPromise()
-        .then((res)=>{
+          .delete()
+          .toPromise()
+          .then((res) => {
 
-          currentUserRef
-          .get()
-          .subscribe(data => {
-            data.forEach(doc => {
-              const photosArr = doc.data().photos;
-              const filtered = photosArr.filter((el)=> {return el.path != imageUrl}) 
-              
-              doc.ref.update({
-                "photos":
-                  filtered
+            currentUserRef
+              .get()
+              .subscribe(data => {
+                data.forEach(doc => {
+                  const photosArr = doc.data().photos;
+                  const filtered = photosArr.filter((el) => { return el.path != imageUrl })
+
+                  doc.ref.update({
+                    "photos":
+                      filtered
+                  })
+                })
               })
-            })
-          }) 
-        })
-        .then(()=>{
-          swalWithBootstrapButtons.fire(
-            'Deleted!',
-            'Your file has been deleted.',
-            'success'
-          )
-        })
-        .catch(err=>{
-          Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: err 
           })
-        })
+          .then(() => {
+            swalWithBootstrapButtons.fire({
+              title: '<span class="text-white">Deleted!</span>',
+              html: '<span class="text-white">Your file has been deleted</span>',
+              icon: 'success',
+              background: '#343a40',
+            })
+          })
+          .catch(err => {
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: err
+            })
+          })
       } else if (result.dismiss === Swal.DismissReason.cancel) {
 
-        swalWithBootstrapButtons.fire(
-          'Cancelled',
-          'Your imaginary file is safe :)',
-          'error'
-        )
+        swalWithBootstrapButtons.fire({
+          title: '<span class="text-white">Cancelled</span>',
+          html: '<span class="text-white">Your imaginary file is safe :)</span>',
+          icon: 'error',
+          background: '#343a40',
+
+        })
       }
     })
   }
+
   ngOnInit() {
-    this.userData = this.userService.getSingleUserData(this.uidQuery).subscribe((data: any) => {
+    this.userService.getSingleUserData(this.uidQuery).subscribe((data: any) => {
       this.userData = data;
-      this.userData.photos.sort((a,b):any=>{
+      if(data == undefined){
+        this.router.navigate(['404'])
+        return
+      }
+      this.userData.photos.sort((a, b): any => {
         return b.generation - a.generation;
       })
       if (this.userData.metrics.followers.includes(this.currentAuthUserId)) {

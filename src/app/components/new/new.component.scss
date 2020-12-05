@@ -41,7 +41,7 @@
             height: 15.625rem;
             object-fit: cover;
             object-position: 50% 50%;
-            transition: all .2s ease-in-out;
+            transition: all 0.5s ease-in-out;
         }
 
         @media only screen and (min-width: 31.375em) {
@@ -52,19 +52,52 @@
             height: 28.125em;
         }
       }
-      .date-added{
+      &-info{
         position: absolute;
         bottom: 0;
-        left: 0.5rem;
-        color: rgba(255, 255, 255, 0.466);
+        height: 35px;
+        width: 100%;
+        z-index: 100;
+        background-color: rgba(52, 58, 64, 0.6);
+        .date-added{
+          position: absolute;
+          bottom: 0.4rem;
+          right: 0.5rem;
+          color: rgba(255, 255, 255, 0.7);
+          z-index: 100;
+        }
+        a.owner{
+          position: absolute;
+          bottom: 0.3rem;
+          left: 0.3rem;
+          z-index: 100;
+          height: unset;
+          color: rgba(255, 255, 255);
+          display: flex;
+          justify-content: center;
+          align-items: center;
+  
+          .owner-avatar{
+            object-fit: cover;
+            width: 30px;
+            height: 30px;
+            z-index: 100;
+            border-radius: 15px;
+            border: 2px solid #ba5df980;
+          }
+          &-name{
+            text-decoration: underline;
+            font-weight: 700;
+          }
+        }
       }
       &:hover{
         cursor: pointer;
 
-        img{
+        img.new-photo{
           transform: scale(1.1) ;
         }
-        // background-color: $dark;
+        
       }
     }
   }

@@ -39,26 +39,43 @@ export class UserdataService implements OnInit {
   }
 
   // UPLOAD AVATAR TO USER ACCOUNT
-  uploadAvatar(path, uid) {
+  async uploadAvatar(path, uid): Promise<any> {
     const fileRef = this.fbStorage.ref(`/avatars/${uid}`)
     const usersRef = this.db.collection('users', ref => ref.where('uid', '==', uid));
-    fileRef.put(path).then((res) => {
+    try {
+      const res = await fileRef.put(path);
       fileRef.getDownloadURL().subscribe(url => {
         if (url) {
           usersRef.get().subscribe(data => {
             data.forEach(doc => {
               doc.ref.update({
                 avatarUrl: url
-              })
-            })
-          })
+              });
+            });
+          });
         }
-      })
-    }).catch((err) => {
-      alert(err)
-    });
+      });
+      Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        title: '<span class="text-white">Avagar changed succesfully!</span>',
+        showConfirmButton: false,
+        timer: 1500,
+        background: '#343a40',
+      });
+    } catch (err) {
+      Swal.fire({
+        position: 'top-start',
+        icon: 'error',
+        title: `<span class="text-white">${err}</span>`,
+        showConfirmButton: false,
+        timer: 1500,
+        background: '#343a40',
+      });
+    }
   }
-  uploadPhoto(path, uid) {
+ 
+  async uploadPhoto(path, uid): Promise<any> {
     let uploadedFiles = [];
     const fileList = path.target.files;
     const storageRef = this.fbStorage;
@@ -69,44 +86,60 @@ export class UserdataService implements OnInit {
       }
     }
     for (let file of fileList) {
+      if (file.type != 'image/jpeg' && file.type != 'image/png') {
+        Swal.fire({
+          position: 'top-start',
+          icon: 'error',
+          title: `<span class="text-white">Invalid file format for file ${file.name}!</span>`,
+          showConfirmButton: false,
+          timer: 1500,
+          background: '#343a40',
+        });
+        return
+      }
       const fileName = `${Date.now()}_${file.name}`
+      const res = await storageRef
+        .ref(`photos/${fileName}`)
+        .put(file, metadata);
+      uploadedFiles.push(res.state);
+
       storageRef
         .ref(`photos/${fileName}`)
-        .put(file, metadata)
-        .then(res => {
-
-          uploadedFiles.push(res.state)
-          storageRef.ref(`photos/${fileName}`)
-            .getDownloadURL().subscribe(url => {
-              if (url) {
-                usersRef.get().subscribe(data => {
-                  data.forEach(doc => {
-                    doc.ref.update({
-                      photos:
-                        firebase.firestore.FieldValue.arrayUnion({
-                          url,
-                          path: fileName,
-                          timeUploaded: res.metadata.timeCreated,
-                          generation: res.metadata.generation,
-                        })
-                    })
+        .getDownloadURL()
+        .subscribe(url => {
+          if (url) {
+            usersRef.get().subscribe(data => {
+              data.forEach(doc => {
+                doc.ref.update({
+                  photos: firebase.firestore.FieldValue.arrayUnion({
+                    url,
+                    path: fileName,
+                    timeUploaded: res.metadata.timeCreated,
+                    generation: res.metadata.generation,
                   })
-                })
-              }
-            })
-        })
-        .then(state => {
-          if (uploadedFiles.length == fileList.length) {
-            Swal.fire({
-              position: 'top-end',
-              icon: 'success',
-              title: '<span class="text-white">Photos uploaded succesfully</span>',
-              showConfirmButton: false,
-              timer: 1500,
-              background: '#343a40',
-            })
+                });
+              });
+            });
           }
-        })
+        });
+      Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        title: '<span class="text-white">Photos uploaded succesfully</span>',
+        showConfirmButton: false,
+        timer: 1500,
+        background: '#343a40',
+      });
+      // if (uploadedFiles.length == fileList.length) {
+      //   Swal.fire({
+      //     position: 'top-end',
+      //     icon: 'success',
+      //     title: '<span class="text-white">Photos uploaded succesfully</span>',
+      //     showConfirmButton: false,
+      //     timer: 1500,
+      //     background: '#343a40',
+      //   });
+      // }
 
     }
   }
@@ -122,30 +155,6 @@ export class UserdataService implements OnInit {
   }
   getAllUsers() {
     return this.db.collection('users', ref => ref.orderBy('metrics.followers', 'asc')).get();
-  }
-  getNewPhotos() {
-    const photosArr = [];
-    const storage = firebase.app().storage('gs://photorama-a622d.appspot.com/');
-    const storageRef = storage.ref();
-    const listRef = storageRef.child('photos/')
-    listRef.list({ maxResults: 50 })
-      .then(data => {
-        data.items.forEach(photo => {
-          let obj = {
-            url: '',
-            owner: '',
-            dateCreated: ''
-          };
-          photo.getMetadata().then(mdata => {
-            obj.dateCreated = mdata.timeCreated;
-            obj.owner = mdata.customMetadata.owner;
-          })
-          photo.getDownloadURL().then(url => {
-            obj.url = url;
-          })
-          photosArr.push(obj)
-        })
-      })
   }
   ngOnInit() {
 

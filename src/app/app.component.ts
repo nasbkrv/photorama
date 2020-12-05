@@ -8,7 +8,9 @@ import { UserdataService } from './services/userdata.service';
           <app-header></app-header>
           <!-- routes will be rendered here -->
           <router-outlet></router-outlet>
-
+          <section class="background-section">
+            
+          </section>
           <!-- footer -->
           <app-footer></app-footer>`,
   styleUrls: ['./app.component.scss']

@@ -24,6 +24,8 @@ import { FormsModule } from '@angular/forms';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { AlertComponent } from './components/alert/alert.component';
 import { TimeagoModule } from 'ngx-timeago';
+import { NotFoundComponent } from './components/not-found/not-found.component';
+import { PhotoramaGuard } from './guards/photorama.guard';
 
 @NgModule({
   declarations: [
@@ -38,6 +40,7 @@ import { TimeagoModule } from 'ngx-timeago';
     ForgotPasswordComponent,
     SpinnerComponent,
     AlertComponent,
+    NotFoundComponent,
   ],
   imports: [
     BrowserModule,
@@ -52,7 +55,7 @@ import { TimeagoModule } from 'ngx-timeago';
     AngularFireStorageModule,
     TimeagoModule.forRoot()
   ],
-  providers: [AuthService, UserdataService],
+  providers: [AuthService, UserdataService,PhotoramaGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

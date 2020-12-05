@@ -5,6 +5,7 @@ import { ForgotPasswordComponent } from './components/forgot-password/forgot-pas
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
 import { NewComponent } from './components/new/new.component';
+import { NotFoundComponent } from './components/not-found/not-found.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { RegisterComponent } from './components/register/register.component';
 import { PhotoramaGuard } from './guards/photorama.guard';
@@ -16,7 +17,7 @@ const routes: Routes = [
   },
   {
     path: 'login',
-    component: LoginComponent
+    component: LoginComponent,
   },
   {
     path: 'register',
@@ -25,7 +26,8 @@ const routes: Routes = [
   ,
   {
     path: 'profile/:id',
-    component: ProfileComponent
+    component: ProfileComponent,
+    canActivate: [PhotoramaGuard]
   },
   {
     path: 'community',
@@ -34,12 +36,19 @@ const routes: Routes = [
   },
   {
     path: 'new',
-    component: NewComponent,
-    canActivate: [PhotoramaGuard]
+    component: NewComponent
   },
   {
     path: 'forgot-password',
     component: ForgotPasswordComponent
+  },
+  {
+    path: '404',
+    component: NotFoundComponent
+  },
+  {
+    path: '**',
+    redirectTo: '/404'
   },
 ];
 

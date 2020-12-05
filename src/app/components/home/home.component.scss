@@ -4,15 +4,24 @@
 
   &__photo-container{
     width: 100%;
-    margin-top: 6rem;
+    margin-top: 3.5rem;
     background-color: rgba(0, 0, 0, 0.295);
     img{
       width: 100%;
     }
     #frontPageCarousel{
-      height: 100%;
-      text-align: center;
+     
       
+      .image-wrap {
+        max-height: 450px;
+        display: flex;
+        align-items: center;
+      }
+      
+       img {
+        object-fit: cover;
+        object-position: 50% 50%;
+      }
     }
   }
 }

@@ -4,6 +4,7 @@ import { UserSettings } from "../services/userSettings";
 import { AngularFireAuth } from "@angular/fire/auth";
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { Router } from "@angular/router";
+import Swal from 'sweetalert2';
 
 @Injectable()
 
@@ -28,15 +29,28 @@ export class AuthService {
       }
     })
   }
-
+  get isLoggedIn(): boolean {
+    let userToken = localStorage.getItem('user');
+    if (userToken === 'null') {
+      userToken = JSON.parse(userToken)
+    }    
+    return userToken == null ? false : true;
+  }
   // Sign in with email/password
-  SignIn(email, password) {
-    return this.afAuth.signInWithEmailAndPassword(email, password)
-      .then((result) => {
-          this.router.navigate(['/']);
-      }).catch((error) => {
-        window.alert(error.message)
-      })
+  async SignIn(email, password) {
+    try {
+      const result = await this.afAuth.signInWithEmailAndPassword(email, password);
+      this.router.navigate(['/']);
+    } catch (error) {
+      Swal.fire({
+        position: 'top-start',
+        icon: 'error',
+        title: `<span class="text-white">${error.message}</span>`,
+        showConfirmButton: true,
+        background: '#343a40',
+        confirmButtonColor: '#ba5df9'
+      });
+    }
   }
 
   // Sign up with email/password
@@ -75,22 +89,49 @@ export class AuthService {
           this.router.navigate(['login'])
 
         }).catch((error) => {
-          window.alert(error.message)
+          Swal.fire({
+            position: 'top-start',
+            icon: 'error',
+            title: `<span class="text-white">${error.message}</span>`,
+            showConfirmButton: true,
+            background: '#343a40',
+            confirmButtonColor: '#ba5df9'
+          });
         })
     } else {
-      window.alert('Username exists')
+      Swal.fire({
+        position: 'top-start',
+        icon: 'error',
+        title: `<span class="text-white">Username exists</span>`,
+        showConfirmButton: true,
+        background: '#343a40',
+        confirmButtonColor: '#ba5df9'
+      });
     }
   }
 
 
   // Reset Forggot password
-  ForgotPassword(passwordResetEmail) {
-    return this.afAuth.sendPasswordResetEmail(passwordResetEmail)
-      .then(() => {
-        window.alert('Password reset email sent, check your inbox.');
-      }).catch((error) => {
-        window.alert(error)
-      })
+  async ForgotPassword(passwordResetEmail) {
+    try {
+      await this.afAuth.sendPasswordResetEmail(passwordResetEmail);
+      Swal.fire({
+        icon: 'success',
+        title: `<span class="text-white">Password reset email sent, check your inbox.</span>`,
+        showConfirmButton: true,
+        background: '#343a40',
+        confirmButtonColor: '#ba5df9'
+      });
+    } catch (error) {
+      Swal.fire({
+        position: 'top-start',
+        icon: 'error',
+        title: `<span class="text-white">${error.message}</span>`,
+        showConfirmButton: true,
+        background: '#343a40',
+        confirmButtonColor: '#ba5df9'
+      });
+    }
   }
 
   async addFsUser(username: string, data: UserSettings) {
@@ -98,11 +139,9 @@ export class AuthService {
   }
   
   // Sign out 
-  SignOut() {
-    return this.afAuth.signOut().then(() => {
-      localStorage.removeItem('user');
-      
-      this.router.navigate(['']);
-    })
+  async SignOut() {
+    await this.afAuth.signOut();
+    localStorage.removeItem('user');
+    this.router.navigate(['']);
   }
 }
