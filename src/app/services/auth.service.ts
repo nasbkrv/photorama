@@ -87,7 +87,14 @@ export class AuthService {
           await this.addFsUser(username, data);
           this.SignOut();
           this.router.navigate(['login'])
-
+          Swal.fire({
+            position: 'top-start',
+            icon: 'success',
+            title: '<span class="text-white">Registered succesfully</span>',
+            showConfirmButton: false,
+            timer: 1500,
+            background: '#343a40',
+          });
         }).catch((error) => {
           Swal.fire({
             position: 'top-start',
@@ -143,5 +150,13 @@ export class AuthService {
     await this.afAuth.signOut();
     localStorage.removeItem('user');
     this.router.navigate(['']);
+    Swal.fire({
+      position: 'top-start',
+      icon: 'success',
+      title: '<span class="text-white">Logged out</span>',
+      showConfirmButton: false,
+      timer: 1500,
+      background: '#343a40',
+    });
   }
 }
