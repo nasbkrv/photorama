@@ -37,6 +37,18 @@ Additionally if the user is viewing their own profile they have a `Edit Profile`
 
 ![Edit Profile](https://i.imgur.com/cQhZEvf.png)
 
+## Community page
+
+The community shows all of the registered users and number of photos and followers for each user.
+![Community Page](https://i.imgur.com/VHKClXz.png)
+
+## New page
+
+The new page shows the last 20 photos that were uploaded by all users on the website
+
+![New Paeg](https://i.imgur.com/kxo0bx1.png)
+
+
 ## Development server
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.2.0.
