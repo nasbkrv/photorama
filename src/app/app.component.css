@@ -1,0 +1,25 @@
+.basic-colors {
+  color: #478559;
+  color: #161748;
+  color: #f95d9b;
+  color: #39a0ca;
+}
+
+.background-section {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  background-image: url("../assets/images/Background/glare.png"), url("../assets/images/Background/foreground.png"), url("../assets/images/Background/train.png"), url("../assets/images/Background/background.png");
+  background-repeat: no-repeat;
+  background-position: bottom, bottom, -1500px bottom, bottom;
+  animation: 15s move-trian infinite linear;
+  z-index: -100;
+  background-size: cover;
+}
+
+@keyframes move-trian {
+  100% {
+    background-position: bottom, bottom, 2000px bottom, bottom;
+  }
+}
